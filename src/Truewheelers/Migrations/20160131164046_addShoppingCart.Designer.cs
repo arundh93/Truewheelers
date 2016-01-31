@@ -8,9 +8,10 @@ using Truewheelers.Models;
 namespace Truewheelers.Migrations
 {
     [DbContext(typeof(TruewheelersDbContext))]
-    partial class TruewheelersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160131164046_addShoppingCart")]
+    partial class addShoppingCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
