@@ -9,10 +9,8 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Truewheelers.Models;
-using Truewheelers.Services;
 
-namespace Truewheelers
+namespace Treewheelers
 {
     public class Startup
     {
@@ -24,17 +22,17 @@ namespace Truewheelers
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
-            if (env.IsDevelopment())
-            {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+            //if (env.IsDevelopment())
+            //{
+            //    // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
+            //    builder.AddUserSecrets();
 
-                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                builder.AddApplicationInsightsSettings(developerMode: true);
-            }
+            //    // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
+            //    builder.AddApplicationInsightsSettings(developerMode: true);
+            //}
 
             builder.AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = builder.Build();    //required for telemetry
         }
 
         public IConfigurationRoot Configuration { get; set; }
@@ -43,22 +41,27 @@ namespace Truewheelers
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+            //services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+            //services.AddEntityFramework()
+            //    .AddSqlServer()
+            //    .AddDbContext<ApplicationDbContext>(options =>
+            //        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             services.AddMvc();
 
             // Add application services.
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
+            //services.AddTransient<IEmailSender, AuthMessageSender>();
+            //services.AddTransient<ISmsSender, AuthMessageSender>();
+
+        //    services.AddEntityFramework()           //needed for db operations
+        //        .AddSqlServer()
+        //        .AddDbContext<FreewheelersDbContext>(options =>
+        //            options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=FreewheelersDbContext-42aa98e4-a89e-4a29-8671-5a1d0cc0f77b;Trusted_Connection=True;MultipleActiveResultSets=true"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,38 +70,38 @@ namespace Truewheelers
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseApplicationInsightsRequestTelemetry();
+            //app.UseApplicationInsightsRequestTelemetry();       //is it related to DI?
 
-            if (env.IsDevelopment())
-            {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseBrowserLink();
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseDatabaseErrorPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
 
-                // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
-                try
-                {
-                    using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
-                        .CreateScope())
-                    {
-                        serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
-                             .Database.Migrate();
-                    }
-                }
-                catch { }
-            }
+            //    // For more details on creating database during deployment see http://go.microsoft.com/fwlink/?LinkID=615859
+            //    try
+            //    {
+            //        using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>()
+            //            .CreateScope())
+            //        {
+            //            serviceScope.ServiceProvider.GetService<ApplicationDbContext>()
+            //                 .Database.Migrate();
+            //        }
+            //    }
+            //    catch { }
+            //}
 
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
+            //app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
 
-            app.UseApplicationInsightsExceptionTelemetry();
+            //app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseStaticFiles();
+            app.UseStaticFiles();       //used for csss styling
 
-            app.UseIdentity();
+            //app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
