@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Entity;
+using Truewheelers.Models;
 
 namespace Truewheelers.Models
 {
@@ -24,5 +25,7 @@ namespace Truewheelers.Models
         }
 
         public DbSet<Bicycles> Bicycles { get; set; }
+
+        public DbSet<ShoppingCart> ShoppingCart { get; set; }
     }
 }
