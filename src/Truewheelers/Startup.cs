@@ -9,6 +9,7 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Truewheelers.Models;
 
 namespace Treewheelers
 {
@@ -53,6 +54,11 @@ namespace Treewheelers
             //    .AddDefaultTokenProviders();
 
             services.AddMvc();
+
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<TruewheelersDbContext>(options =>
+                    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TruewheelersDbContext-bf0a575c-c2e6-409f-823f-ee70dbc06b1b;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
             // Add application services.
             //services.AddTransient<IEmailSender, AuthMessageSender>();
