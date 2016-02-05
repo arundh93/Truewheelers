@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Truewheelers.Models;
+using Truewheelers.ViewModels;
 
 namespace Treewheelers
 {
@@ -54,7 +55,7 @@ namespace Treewheelers
             //    .AddDefaultTokenProviders();
 
             services.AddMvc();
-
+            services.AddTransient<HomeViewModel>();
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<TruewheelersDbContext>(options =>
