@@ -10,7 +10,7 @@ namespace Truewheelers.Controllers
     {
         private TruewheelersDbContext _context;
 
-        public ShoppingCartController(TruewheelersDbContext context)
+       public ShoppingCartController(TruewheelersDbContext context)
         {
             _context = context;    
         }
@@ -43,19 +43,20 @@ namespace Truewheelers.Controllers
         {
             return View();
         }
-
         // POST: ShoppingCart/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ShoppingCart shoppingCart)
+        public IActionResult Create(int id)
         {
+            ShoppingCart sc = new ShoppingCart();
+            sc.itemID = id;
             if (ModelState.IsValid)
             {
-                _context.ShoppingCart.Add(shoppingCart);
+                _context.ShoppingCart.Add(sc);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(shoppingCart);
+            return Index();
         }
 
         // GET: ShoppingCart/Edit/5
