@@ -27,5 +27,7 @@ namespace Truewheelers.Models
         public DbSet<Bicycles> Bicycles { get; set; }
 
         public DbSet<ShoppingCart> ShoppingCart { get; set; }
+
+        public DbSet<Users> Users { get; set; }
     }
 }

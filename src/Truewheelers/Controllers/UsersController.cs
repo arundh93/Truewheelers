@@ -6,28 +6,22 @@ using Truewheelers.Models;
 
 namespace Truewheelers.Controllers
 {
-    public class ShoppingCartController : Controller
+    public class UsersController : Controller
     {
         private TruewheelersDbContext _context;
-        private int test = 0;
-       public ShoppingCartController(TruewheelersDbContext context)
+
+        public UsersController(TruewheelersDbContext context)
         {
-            _context = context;
-            if (test < 1)
-            {
-                _context.ShoppingCart.RemoveRange(_context.ShoppingCart.Where(x => x.itemID == 0 || x.itemID == 1 || x.itemID == 2));
-                _context.SaveChanges();
-                test++;
-            }
+            _context = context;    
         }
 
-        // GET: ShoppingCart
+        // GET: Users
         public IActionResult Index()
         {
-            return View(_context.ShoppingCart.ToList());
+            return View(_context.Users.ToList());
         }
 
-        // GET: ShoppingCart/Details/5
+        // GET: Users/Details/5
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -35,37 +29,36 @@ namespace Truewheelers.Controllers
                 return HttpNotFound();
             }
 
-            ShoppingCart shoppingCart = _context.ShoppingCart.Single(m => m.ID == id);
-            if (shoppingCart == null)
+            Users users = _context.Users.Single(m => m.ID == id);
+            if (users == null)
             {
                 return HttpNotFound();
             }
 
-            return View(shoppingCart);
+            return View(users);
         }
 
-        // GET: ShoppingCart/Create
+        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
         }
-        // POST: ShoppingCart/Create
+
+        // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(int id)
+        public IActionResult Create(Users users)
         {
-            ShoppingCart sc = new ShoppingCart();
-            sc.itemID = id;
             if (ModelState.IsValid)
             {
-                _context.ShoppingCart.Add(sc);
+                _context.Users.Add(users);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return Index();
+            return View(users);
         }
 
-        // GET: ShoppingCart/Edit/5
+        // GET: Users/Edit/5
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,29 +66,29 @@ namespace Truewheelers.Controllers
                 return HttpNotFound();
             }
 
-            ShoppingCart shoppingCart = _context.ShoppingCart.Single(m => m.ID == id);
-            if (shoppingCart == null)
+            Users users = _context.Users.Single(m => m.ID == id);
+            if (users == null)
             {
                 return HttpNotFound();
             }
-            return View(shoppingCart);
+            return View(users);
         }
 
-        // POST: ShoppingCart/Edit/5
+        // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ShoppingCart shoppingCart)
+        public IActionResult Edit(Users users)
         {
             if (ModelState.IsValid)
             {
-                _context.Update(shoppingCart);
+                _context.Update(users);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(shoppingCart);
+            return View(users);
         }
 
-        // GET: ShoppingCart/Delete/5
+        // GET: Users/Delete/5
         [ActionName("Delete")]
         public IActionResult Delete(int? id)
         {
@@ -104,22 +97,22 @@ namespace Truewheelers.Controllers
                 return HttpNotFound();
             }
 
-            ShoppingCart shoppingCart = _context.ShoppingCart.Single(m => m.ID == id);
-            if (shoppingCart == null)
+            Users users = _context.Users.Single(m => m.ID == id);
+            if (users == null)
             {
                 return HttpNotFound();
             }
 
-            return View(shoppingCart);
+            return View(users);
         }
 
-        // POST: ShoppingCart/Delete/5
+        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            ShoppingCart shoppingCart = _context.ShoppingCart.Single(m => m.ID == id);
-            _context.ShoppingCart.Remove(shoppingCart);
+            Users users = _context.Users.Single(m => m.ID == id);
+            _context.Users.Remove(users);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
