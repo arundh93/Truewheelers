@@ -1,9 +1,10 @@
-﻿using Microsoft.Data.Entity;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Data.Entity;
 using Truewheelers.Models;
 
 namespace Truewheelers.Models
 {
-    public class TruewheelersDbContext : DbContext
+    public class TruewheelersDbContext : IdentityDbContext<ApplicationUser>
     {
         private static bool _created = false;
 
@@ -22,12 +23,13 @@ namespace Truewheelers.Models
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
         }
 
         public DbSet<Bicycles> Bicycles { get; set; }
 
         public DbSet<ShoppingCart> ShoppingCart { get; set; }
 
-        public DbSet<Users> Users { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }
