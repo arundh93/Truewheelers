@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Truewheelers.Models;
 using Truewheelers.ViewModels;
+using Truewheelers.ViewModels.ShoppingCart;
 
 namespace Treewheelers
 {
@@ -46,6 +47,8 @@ namespace Treewheelers
             //services.AddApplicationInsightsTelemetry(Configuration);
             services.AddMvc();
             services.AddTransient<HomeViewModel>();
+            services.AddSingleton<ShoppingCartViewModel>();
+
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<TruewheelersDbContext>(options =>
