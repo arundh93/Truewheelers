@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Authorization;
 using System.Threading.Tasks;
 using Truewheelers.ViewModels.Account;
+using System.Security.Claims;       //this was imported coz its used by GetUserId  
 
 namespace Truewheelers.Controllers
 {
@@ -164,5 +165,9 @@ namespace Truewheelers.Controllers
             return View(model);
         }
 
+        public async Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return await _userManager.FindByIdAsync(HttpContext.User.GetUserId());
+        }
     }
 }

@@ -21,6 +21,8 @@ namespace Truewheelers.Controllers
         }
         public IActionResult Index()
         {
+            //todo: make HomeViewModel singleInstance and remove the next line
+            //follow something similar to shopping cart controller 
             _model.model = _context.Bicycles.ToList();
             return View(_model);
         }

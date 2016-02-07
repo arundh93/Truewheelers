@@ -4,6 +4,9 @@ using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Truewheelers.Models;
 using Truewheelers.ViewModels.ShoppingCart;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNet.Identity;
 
 namespace Truewheelers.Controllers
 {
@@ -12,11 +15,14 @@ namespace Truewheelers.Controllers
         private TruewheelersDbContext _context;
         private ShoppingCartViewModel _model;
         private int test = 0;
-       public ShoppingCartController(TruewheelersDbContext context, ShoppingCartViewModel model)
+        private UserManager<ApplicationUser> _userManager;
+
+        public ShoppingCartController(TruewheelersDbContext context, ShoppingCartViewModel model, UserManager<ApplicationUser> userManager)
 
         {
             _model = model;
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: ShoppingCart
@@ -54,6 +60,7 @@ namespace Truewheelers.Controllers
         {
             ShoppingCart sc = new ShoppingCart();
             sc.itemID = id;
+            sc.UserID = GetCurrentUserAsync().Result.Id.ToString();
             if (_model.model == null)
                 _model.model = new[] { _context.Bicycles.ToList().Single(y => y.ID == sc.itemID) };
             else
@@ -124,6 +131,11 @@ namespace Truewheelers.Controllers
             _context.ShoppingCart.Remove(shoppingCart);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        private async Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return await _userManager.FindByIdAsync(HttpContext.User.GetUserId());
         }
     }
 }
