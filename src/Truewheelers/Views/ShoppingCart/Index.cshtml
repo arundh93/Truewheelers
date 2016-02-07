@@ -1,4 +1,4 @@
-@model IEnumerable<Truewheelers.Models.ShoppingCart>
+@model Truewheelers.ViewModels.ShoppingCart.ShoppingCartViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,14 +10,29 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.itemID)
-        </th>
-        <th></th>
-    </tr>
     
-@foreach (var item in Model) {
+    @foreach (var item in Model.model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Brand)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Colour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Model)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Size)
+        </td>
+        <td>
+    </tr>
+    }
+@*@foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.itemID)
@@ -28,7 +43,7 @@
             <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
         </td>
     </tr>
-}
+}*@
 </table>
 
 @*<form asp-controller="ShoppingCart" asp-action="Create" asp-route-id="@item.ID">
