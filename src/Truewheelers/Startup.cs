@@ -44,16 +44,6 @@ namespace Treewheelers
         {
             // Add framework services.
             //services.AddApplicationInsightsTelemetry(Configuration);
-
-            //services.AddEntityFramework()
-            //    .AddSqlServer()
-            //    .AddDbContext<ApplicationDbContext>(options =>
-            //        options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
-
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
-
             services.AddMvc();
             services.AddTransient<HomeViewModel>();
             services.AddEntityFramework()
@@ -61,15 +51,14 @@ namespace Treewheelers
                 .AddDbContext<TruewheelersDbContext>(options =>
                     options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TruewheelersDbContext-bf0a575c-c2e6-409f-823f-ee70dbc06b1b;Trusted_Connection=True;MultipleActiveResultSets=true"));
 
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<TruewheelersDbContext>()
+                .AddDefaultTokenProviders();
             // Add application services.
             //services.AddTransient<IEmailSender, AuthMessageSender>();
             //services.AddTransient<ISmsSender, AuthMessageSender>();
 
-        //    services.AddEntityFramework()           //needed for db operations
-        //        .AddSqlServer()
-        //        .AddDbContext<FreewheelersDbContext>(options =>
-        //            options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=FreewheelersDbContext-42aa98e4-a89e-4a29-8671-5a1d0cc0f77b;Trusted_Connection=True;MultipleActiveResultSets=true"));
-        }
+            }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -108,7 +97,7 @@ namespace Treewheelers
 
             app.UseStaticFiles();       //used for csss styling
 
-            //app.UseIdentity();
+            app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
 
