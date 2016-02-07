@@ -9,5 +9,6 @@ namespace Truewheelers.Models
     {
         public int ID { get; set; }
         public int itemID { get; set; }
+        public string UserID { get; set; }
     }
 }
