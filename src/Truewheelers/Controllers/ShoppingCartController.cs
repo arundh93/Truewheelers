@@ -3,28 +3,26 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using Truewheelers.Models;
+using Truewheelers.ViewModels.ShoppingCart;
 
 namespace Truewheelers.Controllers
 {
     public class ShoppingCartController : Controller
     {
         private TruewheelersDbContext _context;
+        private ShoppingCartViewModel _model;
         private int test = 0;
-       public ShoppingCartController(TruewheelersDbContext context)
+       public ShoppingCartController(TruewheelersDbContext context, ShoppingCartViewModel model)
+
         {
+            _model = model;
             _context = context;
-            if (test < 1)
-            {
-                _context.ShoppingCart.RemoveRange(_context.ShoppingCart.Where(x => x.itemID == 0 || x.itemID == 1 || x.itemID == 2));
-                _context.SaveChanges();
-                test++;
-            }
         }
 
         // GET: ShoppingCart
         public IActionResult Index()
         {
-            return View(_context.ShoppingCart.ToList());
+            return View(_model);
         }
 
         // GET: ShoppingCart/Details/5
@@ -56,6 +54,10 @@ namespace Truewheelers.Controllers
         {
             ShoppingCart sc = new ShoppingCart();
             sc.itemID = id;
+            if (_model.model == null)
+                _model.model = new[] { _context.Bicycles.ToList().Single(y => y.ID == sc.itemID) };
+            else
+                _model.model = _model.model.Concat(new[] { _context.Bicycles.ToList().Single(y => y.ID == id) });
             if (ModelState.IsValid)
             {
                 _context.ShoppingCart.Add(sc);
