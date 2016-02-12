@@ -6,6 +6,6 @@ WORKDIR /source
 
 RUN bash build.sh
 
-WORKDIR /source/src/Notifications.Messaging.Recommendations
+WORKDIR /source/src/Truewheelers
 
 ENTRYPOINT ["dnx","web"]
