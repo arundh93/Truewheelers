@@ -12,7 +12,6 @@ if [ $? -eq 0 ]; then
 	vdo dnu restore
 
 	vdo dnu build  $PROJECT_FOLDER --out $BUILD_FOLDER
-	vdo dnu build  $PROJECT_FOLDER.Tests --out $BUILD_FOLDER
 
 	exit $?
 fi
